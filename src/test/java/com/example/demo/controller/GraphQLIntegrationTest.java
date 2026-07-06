@@ -58,4 +58,14 @@ class GraphQLIntegrationTest {
             .entity(String.class)
             .isEqualTo("Test Book");
     }
+
+    @Test
+    void shouldReturnErrorForNonExistentAuthor() {
+        graphQlTester.document("""
+            query { authorById(id: 999) { name } }
+        """)
+        .execute()
+        .errors()
+        .expect(e -> e.getMessage().contains("Author not found"));
+    }
 }
