@@ -4,6 +4,8 @@ spring:
   profiles:
     active: dev
   graphql:
+    http:
+      path: /biblio
     graphiql:
       enabled: true
   datasource:
