@@ -1,0 +1,77 @@
+type Author {
+    id: ID!
+    name: String!
+    nationality: String
+    birthYear: Int
+    bookIds: [ID!]!
+}
+
+type Book {
+    id: ID!
+    title: String!
+    isbn: String!
+    category: String!
+    authorId: ID!
+    available: Boolean!
+}
+
+type Member {
+    id: ID!
+    name: String!
+    email: String!
+    phone: String
+}
+
+type Loan {
+    id: ID!
+    bookId: ID!
+    memberId: ID!
+    loanDate: String!
+    returnDate: String
+}
+
+input AuthorInput {
+    name: String!
+    nationality: String
+    birthYear: Int
+}
+
+input BookInput {
+    title: String!
+    isbn: String!
+    category: String!
+    authorId: ID!
+}
+
+input MemberInput {
+    name: String!
+    email: String!
+    phone: String
+}
+
+type Query {
+    allAuthors: [Author!]!
+    authorById(id: ID!): Author
+    allBooks(category: String): [Book!]!
+    bookById(id: ID!): Book
+    booksByAuthor(authorId: ID!): [Book!]!
+    allMembers: [Member!]!
+    memberById(id: ID!): Member
+    allLoans: [Loan!]!
+    activeLoans: [Loan!]!
+    loansByMember(memberId: ID!): [Loan!]!
+}
+
+type Mutation {
+    createAuthor(input: AuthorInput!): Author!
+    updateAuthor(id: ID!, input: AuthorInput!): Author!
+    deleteAuthor(id: ID!): Boolean!
+    createBook(input: BookInput!): Book!
+    updateBook(id: ID!, input: BookInput!): Book!
+    deleteBook(id: ID!): Boolean!
+    createMember(input: MemberInput!): Member!
+    updateMember(id: ID!, input: MemberInput!): Member!
+    deleteMember(id: ID!): Boolean!
+    borrowBook(bookId: ID!, memberId: ID!): Loan!
+    returnBook(loanId: ID!): Loan!
+}
