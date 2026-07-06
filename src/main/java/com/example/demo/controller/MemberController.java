@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.MemberInput;
 import com.example.demo.dto.MemberResponse;
 import com.example.demo.service.MemberService;
+import jakarta.validation.Valid;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -29,12 +30,12 @@ public class MemberController {
     }
 
     @MutationMapping
-    public MemberResponse createMember(@Argument MemberInput input) {
+    public MemberResponse createMember(@Argument @Valid MemberInput input) {
         return memberService.create(input);
     }
 
     @MutationMapping
-    public MemberResponse updateMember(@Argument Long id, @Argument MemberInput input) {
+    public MemberResponse updateMember(@Argument Long id, @Argument @Valid MemberInput input) {
         return memberService.update(id, input);
     }
 

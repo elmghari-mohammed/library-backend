@@ -6,6 +6,7 @@ import com.example.demo.mapper.MemberMapper;
 import com.example.demo.model.Member;
 import com.example.demo.repository.MemberRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
@@ -29,11 +30,13 @@ public class MemberService {
             .orElseThrow(() -> new RuntimeException("Member not found: " + id));
     }
 
+    @Transactional
     public MemberResponse create(MemberInput input) {
         Member member = MemberMapper.toEntity(input);
         return MemberMapper.toResponse(memberRepository.save(member));
     }
 
+    @Transactional
     public MemberResponse update(Long id, MemberInput input) {
         Member member = memberRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Member not found: " + id));
@@ -41,6 +44,7 @@ public class MemberService {
         return MemberMapper.toResponse(memberRepository.save(member));
     }
 
+    @Transactional
     public boolean delete(Long id) {
         if (!memberRepository.existsById(id)) {
             throw new RuntimeException("Member not found: " + id);

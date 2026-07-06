@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.BookInput;
 import com.example.demo.dto.BookResponse;
 import com.example.demo.service.BookService;
+import jakarta.validation.Valid;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -34,12 +35,12 @@ public class BookController {
     }
 
     @MutationMapping
-    public BookResponse createBook(@Argument BookInput input) {
+    public BookResponse createBook(@Argument @Valid BookInput input) {
         return bookService.create(input);
     }
 
     @MutationMapping
-    public BookResponse updateBook(@Argument Long id, @Argument BookInput input) {
+    public BookResponse updateBook(@Argument Long id, @Argument @Valid BookInput input) {
         return bookService.update(id, input);
     }
 

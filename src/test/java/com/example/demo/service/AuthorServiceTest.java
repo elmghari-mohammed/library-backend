@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -48,5 +49,24 @@ class AuthorServiceTest {
 
         AuthorResponse result = authorService.create(input);
         assertThat(result.id()).isEqualTo(1L);
+    }
+
+    @Test
+    void shouldThrowWhenAuthorNotFound() {
+        when(authorRepository.findById(999L)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> authorService.findById(999L));
+    }
+
+    @Test
+    void shouldThrowWhenDeletingNonExistentAuthor() {
+        when(authorRepository.existsById(999L)).thenReturn(false);
+        assertThrows(RuntimeException.class, () -> authorService.delete(999L));
+    }
+
+    @Test
+    void shouldThrowWhenUpdatingNonExistentAuthor() {
+        AuthorInput input = new AuthorInput("Updated", "Française", 1800);
+        when(authorRepository.findById(999L)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> authorService.update(999L, input));
     }
 }

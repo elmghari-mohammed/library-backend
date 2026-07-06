@@ -1,3 +1,10 @@
 package com.example.demo.dto;
 
-public record MemberInput(String name, String email, String phone) {}
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record MemberInput(
+    @NotBlank String name,
+    @NotBlank @Email String email,
+    String phone
+) {}

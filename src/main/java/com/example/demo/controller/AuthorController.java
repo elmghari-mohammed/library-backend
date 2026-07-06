@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.AuthorInput;
 import com.example.demo.dto.AuthorResponse;
 import com.example.demo.service.AuthorService;
+import jakarta.validation.Valid;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -29,12 +30,12 @@ public class AuthorController {
     }
 
     @MutationMapping
-    public AuthorResponse createAuthor(@Argument AuthorInput input) {
+    public AuthorResponse createAuthor(@Argument @Valid AuthorInput input) {
         return authorService.create(input);
     }
 
     @MutationMapping
-    public AuthorResponse updateAuthor(@Argument Long id, @Argument AuthorInput input) {
+    public AuthorResponse updateAuthor(@Argument Long id, @Argument @Valid AuthorInput input) {
         return authorService.update(id, input);
     }
 

@@ -6,6 +6,7 @@ import com.example.demo.mapper.AuthorMapper;
 import com.example.demo.model.Author;
 import com.example.demo.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
@@ -29,11 +30,13 @@ public class AuthorService {
             .orElseThrow(() -> new RuntimeException("Author not found: " + id));
     }
 
+    @Transactional
     public AuthorResponse create(AuthorInput input) {
         Author author = AuthorMapper.toEntity(input);
         return AuthorMapper.toResponse(authorRepository.save(author));
     }
 
+    @Transactional
     public AuthorResponse update(Long id, AuthorInput input) {
         Author author = authorRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Author not found: " + id));
@@ -41,6 +44,7 @@ public class AuthorService {
         return AuthorMapper.toResponse(authorRepository.save(author));
     }
 
+    @Transactional
     public boolean delete(Long id) {
         if (!authorRepository.existsById(id)) {
             throw new RuntimeException("Author not found: " + id);
